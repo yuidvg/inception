@@ -8,6 +8,7 @@ services:
     networks:
       - docker-network
     restart: always
+    init: true
 
   wordpress:
     build:
@@ -18,6 +19,7 @@ services:
     networks:
       - docker-network
     restart: always
+    init: true
 
   mariadb:
     build:
@@ -28,6 +30,7 @@ services:
     networks:
       - docker-network
     restart: always
+    init: true
 
 volumes:
   wp_db:
