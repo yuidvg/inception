@@ -34,8 +34,16 @@ services:
       - wp_db:/var/lib/mysql
     networks:
       - docker-network
+    expose:
+      - "3306"
     restart: always
     init: true
+    healthcheck:
+      test: ["CMD", "mariadb", "-h$mariadb", "-u$MARIADB_USER", "-p$MARIADB_PASSWORD", "$MARIADB_NAME", "--silent"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
 
 volumes:
   wp_db:

@@ -1,15 +1,20 @@
 FROM alpine:3.18
 
+ENV MARIADB_USER=mysql
+ENV    MARIADB_BASEDIR=/usr
+ENV    MARIADB_DATADIR=/var/lib/mysql
+ENV    MARIADB_RUNTIMEDATADIR=/run/mysqld
+
 RUN apk update && apk upgrade && apk add --no-cache \
     mariadb \
     mariadb-client \
     mariadb-common && \
     rm -rf /var/cache/apk/* && \
-    mkdir -p /run/mysqld && \
-    chown -R mysql:mysql /run/mysqld && \
-    mkdir -p /var/lib/mysql && \
-    chown -R mysql:mysql /var/lib/mysql && \
-    mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+    mkdir -p ${MARIADB_RUNTIMEDATADIR} && \
+    chown -R mysql:mysql ${MARIADB_RUNTIMEDATADIR} && \
+    mkdir -p ${MARIADB_DATADIR} && \
+    chown -R mysql:mysql ${MARIADB_DATADIR} && \
+    mysql_install_db --user=${MARIADB_USER} --basedir=${MARIADB_BASEDIR} --datadir=${MARIADB_DATADIR}
 
 COPY ./conf/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
 
