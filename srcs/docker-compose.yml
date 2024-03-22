@@ -18,8 +18,13 @@ services:
       - wp_files:/var/www/html
     networks:
       - docker-network
+    expose:
+      - "9000"
     restart: always
     init: true
+    depends_on:
+      mariadb:
+        condition: service_healthy
 
   mariadb:
     build:
