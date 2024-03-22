@@ -11,8 +11,8 @@ RUN apk update && apk upgrade && apk add --no-cache \
 
 RUN adduser -S nginx && addgroup -S nginx
 # fastcgiの処理に関連する設定
-COPY ./conf/php-fpm.conf /etc/php8/php-fpm.conf
-COPY ./conf/www.conf /etc/php8/php-fpm.d/www.conf
+COPY ./conf/php-fpm.conf /etc/php82/php-fpm.conf
+COPY ./conf/www.conf /etc/php82/php-fpm.d/www.conf
 
 RUN mkdir -p /var/www/html
 
@@ -25,4 +25,4 @@ RUN curl -o wordpress.tar.gz -SL https://wordpress.org/latest.tar.gz && \
   tar -xzf wordpress.tar.gz --strip-components=1 -C /var/www/html
 RUN chmod -R 777 /tmp/
 
-ENTRYPOINT [ "php-fpm", "--nodaemonize" ]
+ENTRYPOINT [ "php-fpm82", "--nodaemonize" ]
