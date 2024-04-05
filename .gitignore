@@ -1,2 +1,5 @@
 /vm
 *.env
+*.crt
+*.key
+\.certs

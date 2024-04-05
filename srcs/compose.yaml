@@ -1,0 +1,84 @@
+services:
+  nginx:
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile
+      no_cache: true
+    volumes:
+      - wp_files:/var/www/html
+      - ${CERTS_}:/etc/ssl/certs/
+    networks:
+      - docker-network
+    ports:
+      - "443:443"
+    restart: always
+    init: true
+    depends_on:
+      - wordpress
+    configs:
+      - source: nginx-ssl-wp-conf
+        target: /etc/nginx/http.d/default.conf
+    secrets:
+      - source: nginx-ssl-cert
+        target: /etc/ssl/certs/inception.crt
+      - source: nginx-ssl-cert-key
+        target: /etc/ssl/certs/inception.key
+
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+      no_cache: true
+    volumes:
+      - wp_files:/var/www/html
+    networks:
+      - docker-network
+    expose:
+      - "9000"
+    restart: always
+    init: true
+    depends_on:
+      - mariadb
+    configs:
+      - source: wp-conf
+        target: /var/www/html/wp-config.php
+      - source: php-fpm-www-conf
+        target: /etc/php82/php-fpm.d/www.conf
+
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+    volumes:
+      - wp_db:/var/lib/mysql
+    networks:
+      - docker-network
+    expose:
+      - "3306"
+    restart: always
+    init: true
+
+volumes:
+  wp_db:
+  wp_files:
+
+
+networks:
+  docker-network:
+
+
+configs:
+  nginx-ssl-wp-conf:
+    file: ./requirements/nginx/conf/nginx-ssl-wp.conf
+  wp-conf:
+    file: ./requirements/wordpress/conf/wp-config.php
+  php-fpm-conf:
+    file: ./requirements/wordpress/conf/php-fpm.conf
+  php-fpm-www-conf:
+    file: ./requirements/wordpress/conf/www.conf
+
+secrets:
+  nginx-ssl-cert:
+    file: ${CERTS_}/inception.crt
+  nginx-ssl-cert-key:
+    file: ${CERTS_}/inception.key

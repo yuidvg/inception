@@ -1,19 +1,15 @@
 FROM alpine:3.18
 
-RUN apk update && apk upgrade && apk add --no-cache \
-  nginx \
-  openssl
+ARG CERTS_DIR=/etc/ssl/certs/
+ARG NGINX_RUNTIME_DIR=/run/nginx/
+ARG NGINX_HTTP_CONF_DIR=/etc/nginx/http.d/
 
-# open ssl certificate
-RUN mkdir /etc/nginx/ssl
-RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
-  -out /etc/nginx/ssl/inception.crt \
-  -keyout /etc/nginx/ssl/inception.key \
-  -subj "/C=JP/ST=Tokyo/L=Minato-Ku/O=42Tokyo/CN=www.example.com"
+RUN apk update && apk upgrade && apk add --no-cache \
+  nginx
 
 # nginx
-RUN mkdir -p /run/nginx
-COPY ./conf/default.conf /etc/nginx/default.conf
-EXPOSE 443
+RUN mkdir -p ${NGINX_RUNTIME_DIR}
 
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 443 80
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
