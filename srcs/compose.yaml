@@ -72,6 +72,8 @@ configs:
     file: ./requirements/nginx/conf/nginx-ssl-wp.conf
   wp-conf:
     file: ./requirements/wordpress/conf/wp-config.php
+  php-ini:
+    file: ./requirements/wordpress/conf/php.ini
   php-fpm-conf:
     file: ./requirements/wordpress/conf/php-fpm.conf
   php-fpm-www-conf:
