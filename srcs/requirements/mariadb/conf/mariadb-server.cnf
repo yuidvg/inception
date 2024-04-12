@@ -1,7 +1,9 @@
-[mysqld]
-skip-host-cache
-skip-name-resolve
-user = mysql
+[mariadb]
+general_log
+slow_query_log
+
+[server]
 datadir = /var/lib/mysql
+
+[client-server]
 port = 3306
-bind-address = 0.0.0.0

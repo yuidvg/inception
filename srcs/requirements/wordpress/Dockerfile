@@ -13,6 +13,7 @@ RUN apk update && apk upgrade && apk add --no-cache \
   php${PHP_VERSION} \
   php${PHP_VERSION}-fpm \
   php${PHP_VERSION}-mysqli \
+  mariadb-client \
   curl \
   tar
 
@@ -22,7 +23,7 @@ RUN mkdir -p ${LOG_DIR} && chown -R ${WP_USER}:${WP_USER} ${LOG_DIR}
 
 RUN  mkdir -p ${WP_DIR} && chown -R ${WP_USER}:${WP_USER} ${WP_DIR}
 
-RUN curl -o wordpress.tar.gz -SL https://wordpress.org/wordpress-${WP_VERSION}.tar.gz && \
+RUN curl -o wordpress.tar.gz -SL https://wordpress.org/latest.tar.gz && \
   tar -xzf wordpress.tar.gz --strip-components=1 -C ${WP_DIR} && \
   rm -rf wordpress.tar.gz
 
