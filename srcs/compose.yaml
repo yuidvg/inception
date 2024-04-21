@@ -25,6 +25,8 @@ services:
         target: /etc/ssl/certs/inception.key
     env_file:
       - .env
+    dns_search: ${DOMAIN_NAME}
+    domainname: ${DOMAIN_NAME}
 
   wordpress:
     build:
@@ -42,8 +44,8 @@ services:
     depends_on:
       - mariadb
     configs:
-      # - source: wp-conf
-      #   target: /var/www/html/wp-config.php
+      - source: wp-conf
+        target: /var/www/html/wp-config.php
       - source: php-fpm-www-conf
         target: /etc/php82/php-fpm.d/www.conf
     env_file:
@@ -61,9 +63,6 @@ services:
       - "3306"
     restart: always
     init: true
-    configs:
-      - source: db-setup
-        target: /db-setup.sql
     env_file:
       - .env
 
@@ -87,8 +86,6 @@ configs:
     file: ./requirements/wordpress/conf/php-fpm.conf
   php-fpm-www-conf:
     file: ./requirements/wordpress/conf/www.conf
-  db-setup:
-    file: ./requirements/mariadb/conf/db-setup.sql
 
 secrets:
   nginx-ssl-cert:

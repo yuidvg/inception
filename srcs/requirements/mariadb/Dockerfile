@@ -18,13 +18,18 @@ RUN mkdir -p ${MARIADB_RUNTIME_DIR} && \
 RUN mkdir -p ${MARIADB_DATADIR} && \
     chown -R mysql:mysql ${MARIADB_DATADIR}
 
-# RUN mysql_install_db --user=${MARIADB_USER} --basedir=${MARIADB_BASEDIR} --datadir=${MARIADB_DATADIR}
+RUN mysql_install_db --user=${MARIADB_USER} --basedir=${MARIADB_BASEDIR} --datadir=${MARIADB_DATADIR}
 
 COPY ./conf/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
 
-RUN envsubst < /db-setup.sql | mysqld --bootstrap --user=mysql --basedir=${MARIADB_BASEDIR} --datadir=${MARIADB_DATADIR}
+# RUN rc-service mariadb start && envsubst < /db-setup.sql | mariadb
 
 EXPOSE 3306
 
-ENTRYPOINT [ "/usr/bin/mysqld_safe" ]
-CMD [ "--user=mysql", "--console", "--skip-grant-tables", "--syslog", "--general-log", "--slow-query-log"]
+COPY ../conf/db-setup.sql /
+
+RUN envsubst < /db-setup.sql | mariadbd --user=mysql --bootstrap
+
+ENTRYPOINT ["/usr/bin/mysqld_safe"]
+
+CMD [ "--user=mysql", "--console", "--syslog", "--general-log", "--slow-query-log"]
