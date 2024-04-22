@@ -1,16 +1,14 @@
-ENV_FILE = srcs/.env
 DOMAIN_NAME = ynishimu.42.fr
 
 all:
 	echo "127.0.0.1 ${DOMAIN_NAME}" >> /etc/hosts
-	docker compose --env-file ${ENV_FILE} -f srcs/compose.yaml up --build
+	docker compose 	-f srcs/compose.yaml up --build
 
 clean:
-	docker compose --env-file ${ENV_FILE} -f srcs/compose.yaml down --volumes
+	docker compose -f srcs/compose.yaml down
 
 fclean: clean
-	docker volume rm wp_db
-	docker volume rm wp_files
+	docker compose -f srcs/compose.yaml down --volumes
 
 re: fclean all
 

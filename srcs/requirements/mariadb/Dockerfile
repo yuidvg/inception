@@ -22,13 +22,11 @@ RUN mysql_install_db --user=${MARIADB_USER} --basedir=${MARIADB_BASEDIR} --datad
 
 COPY ./conf/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
 
-# RUN rc-service mariadb start && envsubst < /db-setup.sql | mariadb
-
-EXPOSE 3306
-
 COPY ../conf/db-setup.sql /
 
 RUN envsubst < /db-setup.sql | mariadbd --user=mysql --bootstrap
+
+EXPOSE 3306
 
 ENTRYPOINT ["/usr/bin/mysqld_safe"]
 

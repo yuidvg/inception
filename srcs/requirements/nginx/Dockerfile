@@ -10,6 +10,6 @@ RUN apk update && apk upgrade && apk add --no-cache \
 # nginx
 RUN mkdir -p ${NGINX_RUNTIME_DIR}
 
-EXPOSE 443 80
+EXPOSE 443
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
