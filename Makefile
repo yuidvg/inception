@@ -2,7 +2,7 @@ ENV_FILE = srcs/.env
 DOMAIN_NAME = ynishimu.42.fr
 
 all:
-	# echo "127.0.0.1 ${DOMAIN_NAME}" >> /etc/hosts
+	echo "127.0.0.1 ${DOMAIN_NAME}" >> /etc/hosts
 	docker compose --env-file ${ENV_FILE} -f srcs/compose.yaml up --build
 
 clean:
