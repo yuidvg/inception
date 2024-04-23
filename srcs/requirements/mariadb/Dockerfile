@@ -7,8 +7,6 @@ ENV MARIADB_RUNTIME_DIR=/run/mysqld
 
 RUN apk update && apk upgrade && apk add --no-cache \
     mariadb \
-    mariadb-client \
-    openrc \
     envsubst \
     rm -rf /var/cache/apk/*
 
@@ -28,6 +26,4 @@ RUN envsubst < /db-setup.sql | mariadbd --user=mysql --bootstrap
 
 EXPOSE 3306
 
-ENTRYPOINT ["/usr/bin/mysqld_safe"]
-
-CMD [ "--user=mysql", "--console", "--syslog", "--general-log", "--slow-query-log"]
+ENTRYPOINT ["/usr/bin/mysqld_safe", "--user=mysql", "--console", "--syslog", "--general-log", "--slow-query-log"]

@@ -53,6 +53,7 @@ services:
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
+      no_cache: true
     volumes:
       - wp_db:/var/lib/mysql
     networks:
