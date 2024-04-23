@@ -23,8 +23,6 @@ services:
         target: /etc/ssl/certs/inception.crt
       - source: nginx-ssl-cert-key
         target: /etc/ssl/certs/inception.key
-    env_file:
-      - .env
 
   wordpress:
     build:
@@ -46,8 +44,6 @@ services:
         target: /var/www/html/wp-config.php
       - source: php-fpm-www-conf
         target: /etc/php82/php-fpm.d/www.conf
-    env_file:
-      - .env
 
   mariadb:
     build:
@@ -65,8 +61,6 @@ services:
     configs:
       - source: mariadb-server-conf
         target: /etc/my.cnf.d/mariadb-server.cnf
-    env_file:
-      - .env
 
 volumes:
   wp_db:
