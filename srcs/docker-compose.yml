@@ -6,7 +6,6 @@ services:
       no_cache: true
     volumes:
       - wp_files:/var/www/html
-      - ${CERTS_}:/etc/ssl/certs/
     networks:
       - docker-network
     ports:

@@ -4,8 +4,6 @@ ARG WP_DIR=/var/www/html
 ARG WP_USER=wordpress
 ARG LOG_DIR=/usr/log/php82/
 
-# https://make.wordpress.org/hosting/handbook/server-environment/
-# https://pkgs.org/
 RUN apk update && apk upgrade && apk add --no-cache \
   php82 \
   php82-fpm \
