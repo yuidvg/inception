@@ -18,11 +18,18 @@ RUN mkdir -p ${MARIADB_DATADIR} && \
 
 RUN mysql_install_db --user=${MARIADB_USER} --basedir=${MARIADB_BASEDIR} --datadir=${MARIADB_DATADIR}
 
-COPY ./conf/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
-
-COPY ../conf/db-setup.sql /
-
-RUN envsubst < /db-setup.sql | mariadbd --user=mysql --bootstrap
+RUN  mariadbd --user=mysql --bootstrap <<EOF
+USE mysql ;
+FLUSH PRIVILEGES;
+DROP DATABASE IF EXISTS test ;
+CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY 'rootpassword';
+FLUSH PRIVILEGES;
+CREATE DATABASE IF NOT EXISTS wpdb CHARACTER SET utf8 COLLATE utf8_general_ci ;
+GRANT ALL ON wpdb.* TO 'root'@'%' WITH GRANT OPTION ;
+CREATE USER IF NOT EXISTS 'wpdbuser'@'%' IDENTIFIED BY 'wpdbuserpassword';
+GRANT ALL ON wpdb.* TO 'wpdbuser'@'%';
+FLUSH PRIVILEGES;
+EOF
 
 EXPOSE 3306
 

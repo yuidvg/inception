@@ -62,6 +62,9 @@ services:
       - "3306"
     restart: always
     init: true
+    configs:
+      - source: mariadb-server-conf
+        target: /etc/my.cnf.d/mariadb-server.cnf
     env_file:
       - .env
 
@@ -75,6 +78,8 @@ networks:
 
 
 configs:
+  mariadb-server-conf:
+    file: ./requirements/mariadb/conf/mariadb-server.cnf
   nginx-ssl-wp-conf:
     file: ./requirements/nginx/conf/nginx-ssl-wp.conf
   wp-conf:

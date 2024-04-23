@@ -1,9 +1,0 @@
-USE mysql ;
-FLUSH PRIVILEGES;
-DROP DATABASE IF EXISTS test ;
-CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY 'rootpassword';
-FLUSH PRIVILEGES;
-CREATE DATABASE IF NOT EXISTS wpdb CHARACTER SET utf8 COLLATE utf8_general_ci ;
-GRANT ALL ON wpdb.* TO 'root'@'%' WITH GRANT OPTION ;
-CREATE USER IF NOT EXISTS 'wpdbuser'@'%' IDENTIFIED BY 'wpdbuserpassword';
-GRANT ALL ON wpdb.* TO 'wpdbuser'@'%';
