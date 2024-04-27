@@ -9,8 +9,7 @@ RUN apk update && apk upgrade && apk add --no-cache \
   php82-fpm \
   php82-mysqli \
   curl \
-  tar\
-  rm -rf /var/cache/apk/*
+  tar
 
 RUN adduser -S ${WP_USER} && addgroup -S ${WP_USER}
 

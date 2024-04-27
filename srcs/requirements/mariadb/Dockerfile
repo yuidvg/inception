@@ -6,8 +6,7 @@ ENV MARIADB_DATADIR=/var/lib/mysql
 ENV MARIADB_RUNTIME_DIR=/run/mysqld
 
 RUN apk update && apk upgrade && apk add --no-cache \
-  mariadb \
-  rm -rf /var/cache/apk/*
+  mariadb
 
 RUN mkdir -p ${MARIADB_RUNTIME_DIR} && \
   chown -R mysql:mysql ${MARIADB_RUNTIME_DIR}
