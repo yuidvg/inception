@@ -63,8 +63,17 @@ services:
 
 volumes:
   wp_db:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/ynishimu/data/wp_db
+      o: bind
   wp_files:
-
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/ynishimu/data/wp_files
+      o: bind
 
 networks:
   docker-network:
